@@ -1,8 +1,8 @@
 <template>
     <div class="conversor">
         <h2>{{moedaA}} Para {{moedaB}}</h2>
-        <input type="text" v-model="moedaA_value" v-bind:placeholder="moedaA">
-        <input type="button" value="converter" v-on:click="converter">
+        <input class="input-data" type="text" v-model="moedaA_value" v-bind:placeholder="moedaA">
+        <input class="input-button" type="button" value="converter" v-on:click="converter">
         <h2>{{moedaB_value}}</h2>
     </div>
 </template>
@@ -22,16 +22,15 @@ export default {
 
         converter(){
             let de_para = this.moedaA + "-" + this.moedaB;
-            let valorA = this.moedaA
+            let moeda_conversao = this.moedaA
 
             let url = `https://economia.awesomeapi.com.br/all/${de_para}`;
 
             fetch(url).then(res =>{return res.json()})
                       .then(json=>{
-                          let cotacao = json[valorA].ask;
-                          console.log(cotacao);
+                          let cotacao = json[moeda_conversao].ask;
                           this.moedaB_value = (cotacao * parseFloat(this.moedaA_value)).toFixed(2);
-                      })
+                      });
 
         }
     }
@@ -40,5 +39,24 @@ export default {
 </script>
 
 <style scoped>
+.conversor{
+    padding: 30px;
+    max-width: 300px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+.input-data{
+    border: none;
+    border-radius: 0.2rem;
 
+    padding: 0.8rem;
+
+    width: 100%;
+}
+.input-button{
+    border: none;
+    margin: 10px;
+    color:black;
+    padding: 10px;
+    border-radius: 10px;
+}
 </style>
